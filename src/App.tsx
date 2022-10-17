@@ -1,14 +1,15 @@
 import React from "react";
-import Button from "@mui/material/Button";
+import { Box, Typography } from "@mui/material";
+import Counter from "./Counter";
+import { Todos } from "./Todos";
 
 const App = () => {
     return (
-        <Button
-            variant="contained"
-            onClick={() => console.log("Hello, world!")}
-        >
-            Hello, world!
-        </Button>
+        <Box>
+            <Typography variant="h1">Hello, Material UI!</Typography>
+            <Counter />
+            <Todos />
+        </Box>
     );
 };
 
