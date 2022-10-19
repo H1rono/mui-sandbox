@@ -1,6 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import { Box, Button, List, ListItemText, TextField } from "@mui/material";
+import {
+    Box,
+    Button,
+    List,
+    ListItemText,
+    TextField,
+    Typography,
+} from "@mui/material";
 
 export type TodoProps = {
     description: string;
@@ -34,18 +41,29 @@ export type AddTodoProps = {
 
 export const AddTodoForm = ({ addTodo }: AddTodoProps) => {
     const [todoState, setTodo] = useState({ description: "" });
+    const updateTodo = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        setTodo({ description: e.target.value });
+    };
+    const callback = () => {
+        addTodo(todoState);
+        setTodo({ description: "" });
+    };
     return (
-        <Box>
+        <Box
+            sx={{
+                margin: 2,
+            }}
+        >
             <TextField
                 type="text"
                 label="description"
+                variant="outlined"
                 required
-                onChange={(e) => {
-                    console.log(e.target.value);
-                    setTodo({ description: e.target.value || "" });
-                }}
+                onChange={updateTodo}
             />
-            <Button variant="contained" onClick={() => addTodo(todoState)}>
+            <Button variant="contained" onClick={callback}>
                 Add
             </Button>
         </Box>
@@ -54,18 +72,15 @@ export const AddTodoForm = ({ addTodo }: AddTodoProps) => {
 
 export const Todos = () => {
     const [todos, setModel] = useState<TodoListProps>({ models: [] });
+    const addTodo = (todo: AddTodoState) => {
+        setModel({
+            models: [...todos.models, { description: todo.description }],
+        });
+    };
     return (
         <Box>
-            <AddTodoForm
-                addTodo={(todo) =>
-                    setModel({
-                        models: [
-                            ...todos.models,
-                            { description: todo.description },
-                        ],
-                    })
-                }
-            />
+            <Typography variant="h2">Todos</Typography>
+            <AddTodoForm addTodo={addTodo} />
             <TodoList models={todos.models} />
         </Box>
     );
